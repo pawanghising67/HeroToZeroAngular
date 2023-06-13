@@ -1,27 +1,45 @@
+import { getLocaleTimeFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   // selector: '[app-servers]',
   selector:'.app-servers',
   templateUrl: './servers.component.html',
-  styleUrls: ['./servers.component.css']
-  
+  // styleUrls: ['./servers.component.css']
+  styles: [`
+      .online{
+        color: white;
+      }`]
 })
 export class ServersComponent implements OnInit {
-  allowNewServer =false;
+  allowNewServer =true;
   serverCreationStatus = "No Server was created"
-  serverName='';
+  serverName='Test Server';
+  serverCreated= false;
+  servers = ['Testserver', 'testserver2' ];
+  clicks = 0;
+  timeStamp = 0 ;
   constructor() {
-    setTimeout(()=> {
-      this.allowNewServer= true;
-    }, 2000)
+    
    }
 
   ngOnInit(): void {
   }
 
+  getDisplayColor(){
+    if(this.clicks > 5){
+      return '#FF69B4';
+    }
+  }
+
+  onDisplayDetails(){
+    this.clicks += 1; 
+    this.timeStamp = Date.now();
+  }
   onCreateServer(){
-    this.serverCreationStatus = 'Server was created'
+    this.serverCreated= true;
+    this.servers.push(this.serverName);
+    this.serverCreationStatus = 'Server was created!! name is ' +this.serverName;
   }
   onUpdateServerName(event: Event){
     this.serverName = (<HTMLInputElement>event.target).value;
